@@ -1,0 +1,60 @@
+e: Failed connecting to the daemon in 4 retries
+e: Daemon compilation failed: Could not connect to Kotlin compile daemon
+java.lang.RuntimeException: Could not connect to Kotlin compile daemon
+        at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemon(GradleKotlinCompilerWork.kt:214)
+        at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.compileWithDaemonOrFallbackImpl(GradleKotlinCompilerWork.kt:159)
+        at org.jetbrains.kotlin.compilerRunner.GradleKotlinCompilerWork.run(GradleKotlinCompilerWork.kt:111)
+        at org.jetbrains.kotlin.compilerRunner.GradleCompilerRunnerWithWorkers$GradleKotlinCompilerWorkAction.execute(GradleCompilerRunnerWithWorkers.kt:76)
+        at org.gradle.workers.internal.DefaultWorkerServer.execute(DefaultWorkerServer.java:63)
+        at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:66)
+        at org.gradle.workers.internal.NoIsolationWorkerFactory$1$1.create(NoIsolationWorkerFactory.java:62)
+        at org.gradle.internal.classloader.ClassLoaderUtils.executeInClassloader(ClassLoaderUtils.java:100)
+        at org.gradle.workers.internal.NoIsolationWorkerFactory$1.lambda$execute$0(NoIsolationWorkerFactory.java:62)
+        at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:44)
+        at org.gradle.workers.internal.AbstractWorker$1.call(AbstractWorker.java:41)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:209)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$CallableBuildOperationWorker.execute(DefaultBuildOperationRunner.java:204)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:66)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner$2.execute(DefaultBuildOperationRunner.java:59)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:166)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.execute(DefaultBuildOperationRunner.java:59)
+        at org.gradle.internal.operations.DefaultBuildOperationRunner.call(DefaultBuildOperationRunner.java:53)
+        at org.gradle.workers.internal.AbstractWorker.executeWrappedInBuildOperation(AbstractWorker.java:41)
+        at org.gradle.workers.internal.NoIsolationWorkerFactory$1.execute(NoIsolationWorkerFactory.java:59)
+        at org.gradle.workers.internal.DefaultWorkerExecutor.lambda$submitWork$0(DefaultWorkerExecutor.java:174)
+        at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+        at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runExecution(DefaultConditionalExecutionQueue.java:194)
+        at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.access$700(DefaultConditionalExecutionQueue.java:127)
+        at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner$1.run(DefaultConditionalExecutionQueue.java:169)
+        at org.gradle.internal.Factories$1.create(Factories.java:31)
+        at org.gradle.internal.work.DefaultWorkerLeaseService.withLocks(DefaultWorkerLeaseService.java:263)
+        at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:127)
+        at org.gradle.internal.work.DefaultWorkerLeaseService.runAsWorkerThread(DefaultWorkerLeaseService.java:132)
+        at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.runBatch(DefaultConditionalExecutionQueue.java:164)
+        at org.gradle.internal.work.DefaultConditionalExecutionQueue$ExecutionRunner.run(DefaultConditionalExecutionQueue.java:133)
+        at java.base/java.util.concurrent.Executors$RunnableAdapter.call(Unknown Source)
+        at java.base/java.util.concurrent.FutureTask.run(Unknown Source)
+        at org.gradle.internal.concurrent.ExecutorPolicy$CatchAndRecordFailures.onExecute(ExecutorPolicy.java:64)
+        at org.gradle.internal.concurrent.AbstractManagedExecutor$1.run(AbstractManagedExecutor.java:48)
+        at java.base/java.util.concurrent.ThreadPoolExecutor.runWorker(Unknown Source)
+        at java.base/java.util.concurrent.ThreadPoolExecutor$Worker.run(Unknown Source)
+        at java.base/java.lang.Thread.run(Unknown Source)
+
+exception: warning: ATTENTION!
+exception: this build uses unsafe internal compiler arguments:
+exception:
+exception:
+exception: this mode is not recommended for production use,
+exception: as no stability/compatibility guarantees are given on
+exception: compiler or generated code. Use it at your own risk!
+exception:
+exception: c:\Program Files\flutter\src\packages\flutter_tools\gradle\src\main\kotlin\DependencyVersionChecker.kt:194:39: warning: 'getter for minSdkVersion: AndroidVersion' is deprecated. Will be removed in v9.0
+exception:             MinSdkVersion(it.name, it.minSdkVersion.apiLevel)
+exception:                                       ^^^^^^^^^^^^^
+exception: c:\Program Files\flutter\src\packages\flutter_tools\gradle\src\main\kotlin\FlutterPlugin.kt:11:37: warning: 'ApkVariant' is deprecated. Deprecated in Java
+exception: import com.android.build.gradle.api.ApkVariant
+exception:                                     ^^^^^^^^^^
+exception: c:\Program Files\flutter\src\packages\flutter_tools\gradle\src\main\kotlin\FlutterPlugin.kt:628:69: warning: 'ApkVariant' is deprecated. Deprecated in Java
+exception:                     val versionCodeIfPresent: Int? = if (variant is ApkVariant) variant.versionCode else null
+exception:                                                                     ^^^^^^^^^^
+Running Gradle task 'assembleDebug'...                                 \
