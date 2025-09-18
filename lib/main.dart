@@ -1,126 +1,118 @@
 import 'package:flutter/material.dart';
+import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-void main() {
-  runApp(const MyApp());
-}
+void main() => runApp(MyApp());
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
-
   @override
   Widget build(BuildContext context) {
-    return const MaterialApp(
-      home: HomeScreen(),
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      title: 'YouTube Player',
+      theme: ThemeData(
+        primarySwatch: Colors.red,
+      ),
+      home: YouTubeScreen(),
     );
   }
 }
 
-class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+class YouTubeScreen extends StatefulWidget {
+  @override
+  _YouTubeScreenState createState() => _YouTubeScreenState();
+}
+
+class _YouTubeScreenState extends State<YouTubeScreen> {
+  YoutubePlayerController? _controller;
+  final TextEditingController _urlController = TextEditingController();
+
+  @override
+  void initState() {
+    super.initState();
+    _initializePlayer("https://youtu.be/Rxu7dKT2TRM");
+  }
+
+  void _initializePlayer(String videoUrl) {
+    final videoId = YoutubePlayer.convertUrlToId(videoUrl);
+    if (videoId == null) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text("Invalid YouTube URL")),
+      );
+      return;
+    }
+
+    _controller?.dispose(); // Dispose of previous controller
+    _controller = YoutubePlayerController(
+      initialVideoId: videoId,
+      flags: YoutubePlayerFlags(
+        autoPlay: true,
+        mute: false,
+      ),
+    );
+    setState(() {});
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Display Image And Personal Info')),
-      body: SingleChildScrollView(
-        child: Center(
+      appBar: AppBar(title: Text("YouTube Player")),
+      body: SingleChildScrollView( // <--- This widget fixes the overflow
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
           child: Column(
-            mainAxisSize: MainAxisSize.min,
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              const Padding(
-                padding: EdgeInsets.all(16.0),
-                child: PersonalInfo(),
+              if (_controller != null)
+                YoutubePlayer(
+                  controller: _controller!,
+                  showVideoProgressIndicator: true,
+                ),
+              SizedBox(height: 20),
+              TextField(
+                controller: _urlController,
+                decoration: InputDecoration(
+                  labelText: "Enter YouTube URL",
+                  border: OutlineInputBorder(),
+                ),
               ),
-              Image.asset('assets/images/pfp.jpg'),
-              Image.asset('assets/images/car.jpg'),
-              Image.asset('assets/images/dawg in him.jpg'),
-              Image.asset('assets/images/meme.jpg'),
-              Image.asset('assets/images/miku.png'),
+              SizedBox(height: 10),
+              ElevatedButton(
+                onPressed: () {
+                  _initializePlayer(_urlController.text);
+                },
+                child: Text("Load Video"),
+              ),
+              SizedBox(height: 10),
+              if (_controller != null)
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () => _controller!.play(),
+                      child: Text("Play"),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => _controller!.pause(),
+                      child: Text("Pause"),
+                    ),
+                    SizedBox(width: 10),
+                    ElevatedButton(
+                      onPressed: () => _controller!.seekTo(Duration(seconds: 0)),
+                      child: Text("Restart"),
+                    ),
+                  ],
+                ),
             ],
           ),
         ),
       ),
     );
   }
-}
-
-class PersonalInfo extends StatelessWidget {
-  const PersonalInfo({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return const Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SectionHeader(title: 'Personal Information'),
-        InfoRow(label: 'Name', value: 'DARWIN CATBAGAN'),
-        InfoRow(label: 'Age', value: '19'),
-        InfoRow(label: 'Location', value: 'SAN JUAN LA UNION'),
-        InfoRow(label: 'Email', value: 'darwin.catbagan@lorma.edu'),
-        InfoRow(label: 'Contact', value: '09467654213'),
-        SizedBox(height: 24),
-        SectionHeader(title: 'Education'),
-        InfoRow(label: 'Course', value: 'Information Technology-II'),
-        InfoRow(
-            label: 'College',
-            value:
-            'Central for Learning and Innovation Lorma Colleges San Juan La Union'),
-        InfoRow(label: 'Year', value: '2025-2026'),
-        SizedBox(height: 24),
-        SectionHeader(title: 'Skills'),
-        InfoRow(label: 'Programming', value: 'Java'),
-        InfoRow(label: 'Web Development', value: 'HTML, CSS'),
-        InfoRow(label: 'Others', value: 'MySQL, Git'),
-      ],
-    );
-  }
-}
-
-class SectionHeader extends StatelessWidget {
-  final String title;
-
-  const SectionHeader({super.key, required this.title});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8.0),
-      child: Text(
-        title,
-        style: const TextStyle(
-          fontSize: 20,
-          fontWeight: FontWeight.bold,
-        ),
-      ),
-    );
-  }
-}
-
-class InfoRow extends StatelessWidget {
-  final String label;
-  final String value;
-
-  const InfoRow({super.key, required this.label, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 4.0),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(
-            label,
-            style: const TextStyle(fontWeight: FontWeight.bold),
-          ),
-          Expanded(
-            child: Text(
-              value,
-              textAlign: TextAlign.end,
-            ),
-          ),
-        ],
-      ),
-    );
+  void dispose() {
+    _controller?.dispose();
+    super.dispose();
   }
 }
